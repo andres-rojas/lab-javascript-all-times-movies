@@ -1,6 +1,5 @@
 /* eslint no-restricted-globals: 'off' */
 // Turn duration of the movies from hours to minutes
-
 function turnHoursToMinutes(movies) {
   // Create a deep copy of the movies object
   // by converting to and from JSON
@@ -20,7 +19,7 @@ function turnHoursToMinutes(movies) {
         }
 
         // ...and add duration to minutes
-        switch(time.unit) {
+        switch (time.unit) {
         case "h":
           minutes += time.quantity * 60
           break
@@ -42,6 +41,20 @@ function turnHoursToMinutes(movies) {
 }
 
 // Get the average of all rates with 2 decimals
+function ratesAverage(movies) {
+  return movies.map(
+    function(movie) { return Number(movie.rate) }
+  ).reduce(
+    function(total, rate, index, rates) {
+      total += rate
+      if (index === rates.length - 1) {
+        return Number((total / rates.length).toFixed(2))
+      } else {
+        return total
+      }
+    }
+  )
+}
 
 
 // Get the average of Drama Movies
