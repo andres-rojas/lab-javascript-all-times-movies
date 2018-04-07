@@ -56,9 +56,14 @@ function ratesAverage(movies) {
   )
 }
 
-
 // Get the average of Drama Movies
+function dramaMoviesRate(movies) {
+  dramaMovies = movies.filter(
+    function(movie) { return movie.genre.includes("Drama") }
+  )
 
+  return dramaMovies.length > 0 ? ratesAverage(dramaMovies) : undefined
+}
 
 // Order by time duration, in growing order
 
