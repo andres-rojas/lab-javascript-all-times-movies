@@ -40,16 +40,18 @@ function turnHoursToMinutes(movies) {
   )
 }
 
+
+
 // Get the average of all rates with 2 decimals
+var avgRate = function(total, rate, index, rates) {
+  total += rate
+  return (index === rates.length - 1) ? total / rates.length : total
+}
+
 function ratesAverage(movies) {
-  return movies.map(
+  return Number(movies.map(
     function(movie) { return Number(movie.rate) }
-  ).reduce(
-    function(total, rate, index, rates) {
-      total += rate
-      return (index === rates.length - 1) ? Number((total / rates.length).toFixed(2)) : total
-    }
-  )
+  ).reduce(avgRate).toFixed(2))
 }
 
 // Get the average of Drama Movies
@@ -99,7 +101,7 @@ function howManyMovies(movies) {
 
 // Order by title and print the first 20 titles
 function orderAlphabetically(movies) {
-  titles = movies.map(
+  var titles = movies.map(
     function(movie) { return movie.title }
   ).sort()
 
@@ -107,3 +109,52 @@ function orderAlphabetically(movies) {
 }
 
 // Best yearly rate average
+function bestYearAvg(movies) {
+  if (movies.length === 0) { return undefined }
+
+  var ratesByYear = movies.reduce(
+    function(hash, movie) {
+      if (!(movie.year in hash)) {
+        hash[movie.year] = []
+      }
+      hash[movie.year].push(Number(movie.rate))
+      return hash
+    },
+    {}
+  )
+
+  var avgRateByYear = []
+  for (var year in ratesByYear) {
+    avgRateByYear.push({
+      year: year,
+      avgRate: ratesByYear[year].reduce(avgRate)
+    })
+  }
+
+  var best = avgRateByYear.sort(
+    function(a, b) {
+      // compare rates (descending)
+      if (a.avgRate < b.avgRate) {
+        return 1
+      }
+      if (a.avgRate > b.avgRate) {
+        return -1
+      }
+
+      // a.avgRate must be equal to b.avgRate
+      // compare years (ascending)
+      if (a.year < b.year) {
+        return -1
+      }
+      if (a.year > b.year) {
+        return 1
+      }
+
+      // this shouldn't happen
+      // (it requires a & b to be the same year)
+      return 0
+    }
+  )[0]
+
+  return "The best year was " + best.year + " with an average rate of " + best.avgRate
+}
