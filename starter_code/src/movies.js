@@ -98,6 +98,12 @@ function howManyMovies(movies) {
 }
 
 // Order by title and print the first 20 titles
+function orderAlphabetically(movies) {
+  titles = movies.map(
+    function(movie) { return movie.title }
+  ).sort()
 
+  return titles.length <= 20 ? titles : titles.slice(0, 20)
+}
 
 // Best yearly rate average
