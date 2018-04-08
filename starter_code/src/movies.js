@@ -5,15 +5,15 @@ function turnHoursToMinutes(movies) {
   // by converting to and from JSON
   return JSON.parse(JSON.stringify(movies)).map(
     function(movie) {
-      minutes = 0
+      var minutes = 0
 
       // Split duration into components
-      split_duration = movie.duration.split(" ")
+      var split_duration = movie.duration.split(" ")
 
       // Parse each component...
       for (var i = 0; i < split_duration.length; i++) {
-        split_time = split_duration[i].split(/([0-9]+)([a-z]+)/).slice(1, -1)
-        time = {
+        var split_time = split_duration[i].split(/([0-9]+)([a-z]+)/).slice(1, -1)
+        var time = {
           quantity: Number(split_time[0]),
           unit: split_time[1]
         }
@@ -47,18 +47,14 @@ function ratesAverage(movies) {
   ).reduce(
     function(total, rate, index, rates) {
       total += rate
-      if (index === rates.length - 1) {
-        return Number((total / rates.length).toFixed(2))
-      } else {
-        return total
-      }
+      return (index === rates.length - 1) ? Number((total / rates.length).toFixed(2)) : total
     }
   )
 }
 
 // Get the average of Drama Movies
 function dramaMoviesRate(movies) {
-  dramaMovies = movies.filter(
+  var dramaMovies = movies.filter(
     function(movie) { return movie.genre.includes("Drama") }
   )
 
